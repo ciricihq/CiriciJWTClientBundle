@@ -14,6 +14,8 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\SimpleFormAuthenticatorInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 
+use Namshi\JOSE\SimpleJWS;
+
 /**
  * Token Authenticator.
  *
@@ -30,6 +32,28 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
      * @var LoggerInterface
      */
     protected $logger;
+
+    /**
+     * @var string
+     */
+    protected $publicKeyPath;
+
+    /**
+     * TokenAuthenticator constructor.
+     *
+     * @param RepositoryInterface $repository
+     *
+     * @DI\InjectParams({
+     *   "repository" = @DI\Inject("project.repository.api"),
+     *   "publicKeyPath" = @DI\Inject("%jwt_public_key_path%"),
+     * })
+     */
+    public function __construct(LoggerInterface $logger,  $repository, $publicKeyPath)
+    {
+        $this->logger = $logger;
+        $this->repository = $repository;
+        $this->publicKeyPath = $publicKeyPath;
+    }
 
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
@@ -56,21 +80,6 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
             && $token->getProviderKey() === $providerKey;
     }
 
-    /**
-     * TokenAuthenticator constructor.
-     *
-     * @param RepositoryInterface $repository
-     *
-     * @DI\InjectParams({
-     *   "repository" = @DI\Inject("project.repository.api"),
-     * })
-     */
-    public function __construct(LoggerInterface $logger,  $repository)
-    {
-        $this->logger = $logger;
-        $this->repository = $repository;
-    }
-
     public function createToken(Request $request, $username, $password, $providerKey)
     {
 
@@ -90,6 +99,10 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
                 // Call here your server to get a JWT Token from username and password.
                 // I Use an API Repository based on Guzzle.
                 $clientResponse = $this->repository->loginCheck($data);
+                if (!$clientResponse) {
+                    throw new AuthenticationException('Error trying to authenticate');
+                }
+
                 $token = json_decode($clientResponse->getBody(), true);
 
                 if (!isset($token['token'])) {
@@ -101,15 +114,15 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
                     throw new AuthenticationException('API No Key found');
                 }
 
-                list($username, $roles) = $this->getUsernameForApiKey($apiKey);
+                $payload = $this->verifyJWT($apiKey);
 
-                $user = new ApiUser($username, $password, '', $roles, $apiKey);
+                $user = new ApiUser($username, $password, '', $payload['roles'], $apiKey);
 
                 return new UsernamePasswordToken(
                     $user,
                     $password,
                     $providerKey,
-                    $roles
+                    $payload['roles']
                 );
             } catch (HttpException $ex) {
                 switch ($ex->getStatusCode()) {
@@ -123,5 +136,25 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
             $this->logger->error($ex->getMessage());
             throw new CustomUserMessageAuthenticationException('Invalid username or password');
         }
+    }
+
+    /**
+     * verifyJWT
+     *
+     * @param mixed $jwt
+     * @access private
+     * @return void
+     */
+    private function verifyJWT($jwt)
+    {
+        $jws = SimpleJWS::load($jwt);
+        $public_key = openssl_pkey_get_public(file_get_contents($this->publicKeyPath));
+
+        // If the JWT is valid we return the payload
+        if ($jws->isValid($public_key, 'RS256')) {
+            return $jws->getPayload();
+        }
+
+        throw new AuthenticationException('API Unauthorized');
     }
 }

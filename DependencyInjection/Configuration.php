@@ -24,6 +24,15 @@ class Configuration implements ConfigurationInterface
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
 
+        $rootNode
+            ->children()
+                ->scalarNode('public_key_path')
+                    ->info("The path where should be loaded the public key")
+                    ->defaultValue('%kernel.root_dir%/var/jwt/public.pem')
+                ->end()
+            ->end()
+        ;
+
         return $treeBuilder;
     }
 }

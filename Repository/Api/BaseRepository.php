@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Repository\Api;
+namespace Cirici\JWTClientBundle\Repository\Api;
 
 // use AppBundle\Repository\RepositoryInterface;
 use AppBundle\Security\ApiUser;
@@ -102,5 +102,11 @@ class BaseRepository
 
         return null;
     }
-}
 
+    public function loginCheck($data)
+    {
+        $token = $this->client->post('http://auth.cfs.cirici.com/login_check', $data);
+
+        return $token;
+    }
+}

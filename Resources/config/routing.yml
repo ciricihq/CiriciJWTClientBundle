@@ -1,0 +1,9 @@
+cirici_jwt_client_homepage:
+    path:     /
+    defaults: { _controller: CiriciJWTClientBundle:Default:index }
+
+login_check:
+    path: /secured/login_check
+
+logout:
+    path: /logout

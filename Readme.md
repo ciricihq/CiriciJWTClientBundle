@@ -1,0 +1,42 @@
+This Bundle is used to login against a JWT server
+
+Is based on this instructions: http://ypereirareis.github.io/blog/2016/03/16/symfony-lexikjwtauthenticationbundle-client-user-authenticator-provider/
+
+In order to make this bundle work you should define your `security.yml` like this
+
+```yaml
+# To get started with security, check out the documentation:
+security:
+    providers:
+        token:
+            id: project.token.user_provider
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            pattern: ^/
+            provider: token
+            anonymous: true
+            simple_form:
+                authenticator: project.token.authenticator
+                check_path: login_check
+                login_path: login
+                # user_referer: true
+                failure_path: login
+            logout:
+                path: /logout
+                target: login
+            remember_me:
+                secret: '%secret%'
+                lifetime: 86400
+                path: /
+
+    access_control:
+        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/registration, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, role: ROLE_ADMIN }
+```

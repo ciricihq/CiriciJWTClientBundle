@@ -1,7 +1,3 @@
-cirici_jwt_client_homepage:
-    path:     /
-    defaults: { _controller: CiriciJWTClientBundle:Default:index }
-
 cirici_jwt_client_login:
     path: /login
     defaults: { _controller: CiriciJWTClientBundle:Security:login }

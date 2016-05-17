@@ -80,6 +80,16 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
             && $token->getProviderKey() === $providerKey;
     }
 
+    /**
+     * createToken
+     *
+     * @param Request $request
+     * @param mixed $username
+     * @param mixed $password
+     * @param mixed $providerKey
+     * @access public
+     * @return void
+     */
     public function createToken(Request $request, $username, $password, $providerKey)
     {
 

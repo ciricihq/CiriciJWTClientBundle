@@ -2,6 +2,8 @@ This Bundle is used to login against a JWT server
 
 Is based on this instructions: http://ypereirareis.github.io/blog/2016/03/16/symfony-lexikjwtauthenticationbundle-client-user-authenticator-provider/
 
+## Configuration
+
 In order to make this bundle work you should define your `security.yml` like this
 
 ```yaml
@@ -40,3 +42,15 @@ security:
         - { path: ^/registration, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, role: ROLE_ADMIN }
 ```
+
+## Extending login template
+
+If you want to modify the default login template you should create the next folders
+
+```bash
+mkdir -P app/Resources/CiriciJWTClientBundle/views/Security
+```
+
+And then copy the file `login.html.twig` from the bundle to the folder created above.
+
+Now your app will load the login template just copied and you can modify it without altering the bundle one. :)

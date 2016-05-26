@@ -13,14 +13,16 @@ class ApiUser implements AdvancedUserInterface, \Serializable, EquatableInterfac
     private $salt;
     private $roles;
     private $token;
+    private $payload;
 
-    public function __construct($username, $password, $salt, array $roles, $token)
+    public function __construct($username, $password, $salt, $token, array $payload)
     {
         $this->username = $username;
         $this->password = $password;
         $this->salt = $salt;
-        $this->roles = $roles;
         $this->token = $token;
+        $this->payload = $payload;
+        $this->roles = $payload['roles'];
     }
 
     public function getRoles()
@@ -49,6 +51,18 @@ class ApiUser implements AdvancedUserInterface, \Serializable, EquatableInterfac
     public function getToken()
     {
         return $this->token;
+    }
+
+
+    /**
+     * getPayload
+     *
+     * @access public
+     * @return array
+     */
+    public function getPayload()
+    {
+        return $this->payload;
     }
 
     public function eraseCredentials()

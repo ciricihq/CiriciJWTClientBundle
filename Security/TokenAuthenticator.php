@@ -126,7 +126,7 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
 
                 $payload = $this->verifyJWT($apiKey);
 
-                $user = new ApiUser($username, $password, '', $payload['roles'], $apiKey);
+                $user = new ApiUser($username, $password, '', $apiKey, $payload);
 
                 return new UsernamePasswordToken(
                     $user,

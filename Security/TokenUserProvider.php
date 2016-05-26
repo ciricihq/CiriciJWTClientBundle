@@ -53,8 +53,6 @@ class TokenUserProvider implements UserProviderInterface
                 throw new AuthenticationException('TOKEN No expiration timestamp found in the Auth Token');
             }
 
-            $roles = isset($payload['roles']) ? $payload['roles'] : [];
-
             $exp = $payload['exp'];
             if ($exp + (int) self::TOKEN_REFRESH_DELAY <= time()) {
                 throw new AuthenticationException('TOKEN Expired');
@@ -62,7 +60,7 @@ class TokenUserProvider implements UserProviderInterface
 
             return [
                 $payload['username'],
-                $roles
+                $payload
             ];
 
         } catch (\Exception $ex) {
@@ -74,7 +72,7 @@ class TokenUserProvider implements UserProviderInterface
     public function loadUserByUsername($username)
     {
         // NOT USED IN OUR CASE !!!
-        return new ApiUser($username,  null, '', ['ROLE_USER'], '');
+        return new ApiUser($username,  null, '', ['roles' => 'ROLE_USER'], '');
     }
 
     public function refreshUser(UserInterface $user)
@@ -86,9 +84,9 @@ class TokenUserProvider implements UserProviderInterface
             );
         }
 
-        list($username, $roles) = $this->getUsernameForApiKey($user->getToken());
+        list($username, $payload) = $this->getUsernameForApiKey($user->getToken());
 
-        return new ApiUser($username,  null, '', $roles, $user->getToken());
+        return new ApiUser($username,  null, '', $user->getToken(), $payload);
     }
 
     public function supportsClass($class)

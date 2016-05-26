@@ -4,6 +4,17 @@ Is based on this instructions: http://ypereirareis.github.io/blog/2016/03/16/sym
 
 ## Configuration
 
+The first step is to configure jms/di-extra-bundle to load the Dependency Injection annotations so you have to configure the paths to look for.
+
+```
+jms_di_extra:
+    locations:
+        all_bundles: false
+        bundles: [AppBundle]
+        directories: ["%kernel.root_dir%/../src", "%kernel.root_dir%/../vendor/cirici/jwt-client-bundle"]
+
+```
+
 In order to make this bundle work you should define your `security.yml` like this
 
 ```yaml

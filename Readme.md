@@ -1,6 +1,22 @@
-This Bundle is used to login against a JWT server
+# This Bundle is used to login against a JWT server or to check the validity of a JWT Token
 
 Is based on this instructions: http://ypereirareis.github.io/blog/2016/03/16/symfony-lexikjwtauthenticationbundle-client-user-authenticator-provider/
+
+## Installation
+
+```bash
+composer require ciricihq/jwt-client-bundle
+```
+
+Then add to `AppKernel.php`
+
+```php
+        $bundles = [
+            ...
+            new Cirici\JWTClientBundle\CiriciJWTClientBundle(),
+            ...
+        ];
+```
 
 ## Configuration
 

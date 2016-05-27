@@ -53,7 +53,6 @@ class BaseRepository
         $this->securityTokenStorage = $securityTokenStorage;
     }
 
-
     /**
      * @param $url
      * @param bool $public

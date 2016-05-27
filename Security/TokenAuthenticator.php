@@ -14,8 +14,6 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authentication\SimpleFormAuthenticatorInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 
-use Namshi\JOSE\SimpleJWS;
-
 /**
  * Token Authenticator.
  *
@@ -33,10 +31,7 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
      */
     protected $logger;
 
-    /**
-     * @var string
-     */
-    protected $publicKeyPath;
+    private $verifier;
 
     /**
      * TokenAuthenticator constructor.
@@ -46,15 +41,25 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
      * @DI\InjectParams({
      *   "repository" = @DI\Inject("project.repository.api"),
      *   "publicKeyPath" = @DI\Inject("%jwt_public_key_path%"),
+     *   "verifier" = @DI\Inject("@project.token.jwt_verifier"),
      * })
      */
-    public function __construct(LoggerInterface $logger,  $repository, $publicKeyPath)
+    public function __construct(LoggerInterface $logger, $repository, $verifier)
     {
         $this->logger = $logger;
         $this->repository = $repository;
-        $this->publicKeyPath = $publicKeyPath;
+        $this->verifier = $verifier;
     }
 
+    /**
+     * authenticateToken
+     *
+     * @param TokenInterface $token
+     * @param UserProviderInterface $userProvider
+     * @param mixed $providerKey
+     * @access public
+     * @return UsernamePasswordToken
+     */
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
         try {
@@ -74,12 +79,6 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
         );
     }
 
-    public function supportsToken(TokenInterface $token, $providerKey)
-    {
-        return $token instanceof UsernamePasswordToken
-            && $token->getProviderKey() === $providerKey;
-    }
-
     /**
      * createToken
      *
@@ -92,19 +91,18 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
      */
     public function createToken(Request $request, $username, $password, $providerKey)
     {
+        if (null === $username || null === $password) {
+            throw new AuthenticationException('Username and password must be defined');
+        }
+
+        $data = [
+            'form_params' => [
+                '_username' => $username,
+                '_password' => $password,
+            ],
+        ];
 
         try {
-            if (null === $username || null === $password) {
-                throw new AuthenticationException('Username and password must be defined');
-            }
-
-            $data = [
-                'form_params' => [
-                    '_username' => $username,
-                    '_password' => $password,
-                ],
-            ];
-
             try {
                 // Call here your server to get a JWT Token from username and password.
                 // I Use an API Repository based on Guzzle.
@@ -124,7 +122,7 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
                     throw new AuthenticationException('API No Key found');
                 }
 
-                $payload = $this->verifyJWT($apiKey);
+                $payload = $this->verifier->verifyJWT($apiKey);
 
                 $user = new ApiUser($username, $password, '', $apiKey, $payload);
 
@@ -148,23 +146,9 @@ class TokenAuthenticator implements SimpleFormAuthenticatorInterface
         }
     }
 
-    /**
-     * verifyJWT
-     *
-     * @param mixed $jwt
-     * @access private
-     * @return void
-     */
-    private function verifyJWT($jwt)
+    public function supportsToken(TokenInterface $token, $providerKey)
     {
-        $jws = SimpleJWS::load($jwt);
-        $public_key = openssl_pkey_get_public(file_get_contents($this->publicKeyPath));
-
-        // If the JWT is valid we return the payload
-        if ($jws->isValid($public_key, 'RS256')) {
-            return $jws->getPayload();
-        }
-
-        throw new AuthenticationException('API Unauthorized');
+        return $token instanceof UsernamePasswordToken
+            && $token->getProviderKey() === $providerKey;
     }
 }

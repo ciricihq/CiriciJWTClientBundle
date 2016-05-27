@@ -53,7 +53,6 @@ class ApiUser implements AdvancedUserInterface, \Serializable, EquatableInterfac
         return $this->token;
     }
 
-
     /**
      * getPayload
      *

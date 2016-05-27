@@ -20,7 +20,9 @@ Then add to `AppKernel.php`
 
 ## Configuration
 
-The first step is to configure jms/di-extra-bundle to load the Dependency Injection annotations so you have to configure the paths to look for.
+If you are planning to use the bundle as a Authentication service against a JWT server,
+the first step is to configure jms/di-extra-bundle to load the Dependency Injection annotations
+so you have to configure the paths to look for.
 
 ```
 jms_di_extra:
@@ -28,7 +30,6 @@ jms_di_extra:
         all_bundles: false
         bundles: [AppBundle]
         directories: ["%kernel.root_dir%/../src", "%kernel.root_dir%/../vendor/cirici/jwt-client-bundle"]
-
 ```
 
 In order to make this bundle work you should define your `security.yml` like this

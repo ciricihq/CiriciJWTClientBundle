@@ -35,10 +35,16 @@ class TokenUserProvider implements UserProviderInterface
         $this->logger = $logger;
     }
 
+    /**
+     * getUsernameForApiKey
+     *
+     * @param mixed $apiKey
+     * @access public
+     * @return void
+     */
     public function getUsernameForApiKey($apiKey)
     {
         try {
-
             $tokenParts = explode('.', $apiKey);
             if (self::JWT_TOKEN_PARTS_COUNT !== count($tokenParts)) {
                 throw new AuthenticationException('TOKEN Wrong Auth Token format');
@@ -69,15 +75,28 @@ class TokenUserProvider implements UserProviderInterface
         }
     }
 
+    /**
+     * loadUserByUsername
+     *
+     * @param mixed $username
+     * @access public
+     * @return void
+     */
     public function loadUserByUsername($username)
     {
         // NOT USED IN OUR CASE !!!
         return new ApiUser($username,  null, '', ['roles' => 'ROLE_USER'], '');
     }
 
+    /**
+     * refreshUser
+     *
+     * @param UserInterface $user
+     * @access public
+     * @return void
+     */
     public function refreshUser(UserInterface $user)
     {
-
         if (!$user instanceof ApiUser) {
             throw new UnsupportedUserException(
                 sprintf('Instances of "%s" are not supported.', get_class($user))
@@ -89,6 +108,13 @@ class TokenUserProvider implements UserProviderInterface
         return new ApiUser($username,  null, '', $user->getToken(), $payload);
     }
 
+    /**
+     * supportsClass
+     *
+     * @param mixed $class
+     * @access public
+     * @return void
+     */
     public function supportsClass($class)
     {
         return 'AppBundle\Security\ApiUser' === $class;

@@ -24,11 +24,6 @@ class ExternalTokenAuthenticator implements SimpleFormAuthenticatorInterface
      */
     protected $repository;
 
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
     private $verifier;
 
     /**
@@ -37,9 +32,8 @@ class ExternalTokenAuthenticator implements SimpleFormAuthenticatorInterface
      * @param RepositoryInterface $repository
      *
      */
-    public function __construct(LoggerInterface $logger, $repository, $verifier)
+    public function __construct($repository, $verifier)
     {
-        $this->logger = $logger;
         $this->repository = $repository;
         $this->verifier = $verifier;
     }
@@ -134,7 +128,6 @@ class ExternalTokenAuthenticator implements SimpleFormAuthenticatorInterface
                 }
             }
         } catch (AuthenticationException $ex) {
-            $this->logger->error($ex->getMessage());
             throw new CustomUserMessageAuthenticationException('Invalid username or password');
         }
     }

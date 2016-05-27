@@ -6,6 +6,6 @@ services:
         class: Cirici\JWTClientBundle\Security\JwtVerifier
         arguments: ["%jwt_public_key_path%"]
 
-    project.token_authenticator:
+    project.token.authenticator:
         class: Cirici\JWTClientBundle\Security\TokenAuthenticator
         arguments: ["@project.token.jwt_verifier"]

@@ -70,7 +70,7 @@ security:
             provider: token
             anonymous: true
             simple_form:
-                authenticator: project.token.authenticator
+                authenticator: project.token.external_authenticator
                 check_path: login_check
                 login_path: login
                 # user_referer: true

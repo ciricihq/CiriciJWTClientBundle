@@ -24,31 +24,17 @@ class BaseRepository
     protected $client;
 
     /**
-     * @var KernelInterface
-     */
-    protected $kernel;
-
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
-    /**
      * @var TokenStorageInterface
      */
     protected $securityTokenStorage;
 
     /**
      * BaseRepository constructor.
-     * @param KernelInterface $kernel
-     * @param LoggerInterface $logger
      * @param $client
      * @param TokenStorageInterface $securityTokenStorage
      */
-    public function __construct(KernelInterface $kernel, LoggerInterface $logger, $client, TokenStorageInterface $securityTokenStorage)
+    public function __construct($client, TokenStorageInterface $securityTokenStorage)
     {
-        $this->kernel = $kernel;
-        $this->logger = $logger;
         $this->client = $client;
         $this->securityTokenStorage = $securityTokenStorage;
     }
@@ -61,7 +47,6 @@ class BaseRepository
     protected function getData($url, $public = true)
     {
         try {
-            $this->logger->debug('API call with Guzzle', ['url', $url]);
             $client = $this->client->get();
 
             $options = [];

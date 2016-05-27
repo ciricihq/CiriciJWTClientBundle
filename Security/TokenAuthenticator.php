@@ -21,6 +21,13 @@ use Doctrine\ORM\EntityManager;
  */
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
+    private $jwtVerifier;
+
+    public function __construct($jwtVerifier)
+    {
+        $this->jwtVerifier = $jwtVerifier;
+    }
+
     /**
      * Called on every request. Return whatever credentials you want,
      * or null to stop authentication.
@@ -40,9 +47,21 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         );
     }
 
+    /**
+     * getUser
+     *
+     * Retrieves the user from a token, it must validate before
+     *
+     * @param mixed $credentials
+     * @param UserProviderInterface $userProvider
+     * @access public
+     * @return void
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $apiKey = $credentials['token'];
+
+        $payload = $this->jwtVerifier->verifyJWT($apiKey);
 
         // if null, authentication will fail
         // if a User object, checkCredentials() is called

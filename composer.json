@@ -16,6 +16,7 @@
     ],
     "require": {
         "php": ">=5.3.3",
+        "namshi/jose": "^7.0",
         "jms/di-extra-bundle": "dev-master"
     },
     "require-dev": {

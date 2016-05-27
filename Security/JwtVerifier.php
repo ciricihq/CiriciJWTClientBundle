@@ -8,8 +8,6 @@ use Namshi\JOSE\SimpleJWS;
  * JwtVerifier
  *
  * @author  genar@acs.li
- *
- * @DI\Service("project.token.jwt_verifier")
  */
 class JwtVerifier
 {
@@ -23,10 +21,6 @@ class JwtVerifier
      *
      * @access public
      * @return void
-     *
-     * @DI\InjectParams({
-     *   "publicKeyPath" = @DI\Inject("%jwt_public_key_path%"),
-     * })
      */
     public function __construct($publicKeyPath)
     {

@@ -1,8 +1,7 @@
 services:
-    app.token_authenticator:
-        class: Cirici\JWTClientBundle\Security\TokenAuthenticator
-        arguments: ["@project.token.jwt_verifier"]
-
     project.token.jwt_verifier:
         class: Cirici\JWTClientBundle\Security\JwtVerifier
         arguments: ["%jwt_public_key_path%"]
+    app.token_authenticator:
+        class: Cirici\JWTClientBundle\Security\TokenAuthenticator
+        arguments: ["@project.token.jwt_verifier"]

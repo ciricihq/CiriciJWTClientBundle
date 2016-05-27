@@ -16,8 +16,6 @@ use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * ExternalTokenAuthenticator.
- *
- * @DI\Service("project.token.external_authenticator")
  */
 class ExternalTokenAuthenticator implements SimpleFormAuthenticatorInterface
 {
@@ -38,11 +36,6 @@ class ExternalTokenAuthenticator implements SimpleFormAuthenticatorInterface
      *
      * @param RepositoryInterface $repository
      *
-     * @DI\InjectParams({
-     *   "repository" = @DI\Inject("project.repository.api"),
-     *   "publicKeyPath" = @DI\Inject("%jwt_public_key_path%"),
-     *   "verifier" = @DI\Inject("@project.token.jwt_verifier"),
-     * })
      */
     public function __construct(LoggerInterface $logger, $repository, $verifier)
     {

@@ -25,6 +25,10 @@ class CiriciJWTClientExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
+        if ($config['use_external_jwt_api'] === true) {
+            $loader->load('token_external_authenticator.yml');
+        }
+
         // convert settings to parameters in order to acces them from controllers
         $container->setParameter('jwt_public_key_path', $config['public_key_path']);
     }

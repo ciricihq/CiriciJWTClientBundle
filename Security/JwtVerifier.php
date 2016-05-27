@@ -3,6 +3,8 @@
 namespace Cirici\JWTClientBundle\Security;
 
 use Namshi\JOSE\SimpleJWS;
+use InvalidArgumentException;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 /**
  * JwtVerifier
@@ -36,7 +38,12 @@ class JwtVerifier
      */
     public function verifyJWT($jwt)
     {
-        $jws = SimpleJWS::load($jwt);
+        try {
+            $jws = SimpleJWS::load($jwt);
+        } catch (InvalidArgumentException $e){
+            throw new AuthenticationException('Invalid jwt token');
+        }
+
         $public_key = openssl_pkey_get_public(file_get_contents($this->publicKeyPath));
 
         // If the JWT is valid we return the payload

@@ -24,6 +24,22 @@ If you are planning to use the bundle as a Authentication service against a JWT 
 the first step is to configure jms/di-extra-bundle to load the Dependency Injection annotations
 so you have to configure the paths to look for.
 
+You should load the external token authenticator adding this to your `config.yml`
+
+```yml
+cirici_jwt_client:
+    use_external_jwt_api: true
+```
+
+And you must define the api using Guzzle configuration
+
+```yml
+guzzle:
+    clients:
+        api_jwt:
+            base_url: %api_jwt_base_url%
+```
+
 ```
 jms_di_extra:
     locations:
@@ -31,6 +47,8 @@ jms_di_extra:
         bundles: [AppBundle]
         directories: ["%kernel.root_dir%/../src", "%kernel.root_dir%/../vendor/cirici/jwt-client-bundle"]
 ```
+
+## Configure security for login form against external JWT server
 
 In order to make this bundle work you should define your `security.yml` like this
 

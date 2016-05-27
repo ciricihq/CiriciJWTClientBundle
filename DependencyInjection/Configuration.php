@@ -30,6 +30,10 @@ class Configuration implements ConfigurationInterface
                     ->info("The path where should be loaded the public key")
                     ->defaultValue('%kernel.root_dir%/var/jwt/public.pem')
                 ->end()
+                ->booleanNode('use_external_jwt_api')
+                    ->info("Load the external api token authenticator")
+                    ->defaultValue(false)
+                ->end()
             ->end()
         ;
 

@@ -15,8 +15,6 @@ use Symfony\Component\Security\Core\Security;
 
 /**
  * Class BaseRepository.
- *
- * @DI\Service("project.repository.api")
  */
 class BaseRepository
 {
@@ -46,11 +44,6 @@ class BaseRepository
      * @param LoggerInterface $logger
      * @param $client
      * @param TokenStorageInterface $securityTokenStorage
-     *
-     * @DI\InjectParams({
-     *    "client" = @DI\Inject("guzzle.client.api_jwt"),
-     *    "securityTokenStorage" = @DI\Inject("security.token_storage"),
-     * })
      */
     public function __construct(KernelInterface $kernel, LoggerInterface $logger, $client, TokenStorageInterface $securityTokenStorage)
     {
@@ -105,7 +98,7 @@ class BaseRepository
 
     public function loginCheck($data)
     {
-        $token = $this->client->post('http://auth.cfs.cirici.com/login_check', $data);
+        $token = $this->client->post('/login_check', $data);
 
         return $token;
     }

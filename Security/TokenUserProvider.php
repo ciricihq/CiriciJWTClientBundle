@@ -13,27 +13,11 @@ use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * Token User Provider.
- *
- * @DI\Service("project.token.user_provider")
  */
 class TokenUserProvider implements UserProviderInterface
 {
     const JWT_TOKEN_PARTS_COUNT = 3;
     const TOKEN_REFRESH_DELAY = 120;
-
-    /**
-     * TokenUserProvider constructor.
-     *
-     * @param LoggerInterface $logger
-     *
-     *
-     * @DI\InjectParams({
-     * })
-     */
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
 
     /**
      * getUsernameForApiKey
@@ -70,7 +54,6 @@ class TokenUserProvider implements UserProviderInterface
             ];
 
         } catch (\Exception $ex) {
-            $this->logger->error($ex->getMessage());
             throw new CustomUserMessageAuthenticationException('You have been disconnected, try to reconnect.');
         }
     }

@@ -2,6 +2,8 @@
 
 Is based on this instructions: http://ypereirareis.github.io/blog/2016/03/16/symfony-lexikjwtauthenticationbundle-client-user-authenticator-provider/
 
+WARNING! This bundle is Work In Progress and is not ready for production yet
+
 ## Installation
 
 ```bash

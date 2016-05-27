@@ -1,5 +1,5 @@
 {
-    "name": "cirici/jwt-client-bundle",
+    "name": "ciricihq/jwt-client-bundle",
     "license": "proprietary",
     "type": "symfony-bundle",
     "description": "Symfony client for manage JWT login against external JWT server or to check if coming JWT token is valid",
@@ -11,6 +11,7 @@
         },
         {
             "name": "Genar Trias Ortiz",
+            "homepage": "http://genar.me",
             "email": "genar@cirici.com"
         }
     ],

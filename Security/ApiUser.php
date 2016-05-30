@@ -22,7 +22,7 @@ class ApiUser implements AdvancedUserInterface, \Serializable, EquatableInterfac
         $this->salt = $salt;
         $this->token = $token;
         $this->payload = $payload;
-        $this->roles = $payload['roles'];
+        $this->roles = isset($payload['roles']) ? $payload['roles'] : ['roles' => 'ROLE_USER'];
     }
 
     public function getRoles()

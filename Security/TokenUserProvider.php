@@ -65,10 +65,13 @@ class TokenUserProvider implements UserProviderInterface
      * @access public
      * @return void
      */
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($username, $payload = [])
     {
-        // NOT USED IN OUR CASE !!!
-        return new ApiUser($username,  null, '', ['roles' => 'ROLE_USER'], '');
+        if ($payload) {
+            return $this->loadUserByPayload($payload);
+        }
+
+        return new ApiUser($username,  null, '', ['roles' => 'ROLE_USER'], []);
     }
 
     /**
@@ -100,6 +103,18 @@ class TokenUserProvider implements UserProviderInterface
      */
     public function supportsClass($class)
     {
-        return 'AppBundle\Security\ApiUser' === $class;
+        return 'Cirici\JWTClientBundle\Security\ApiUser' === $class;
+    }
+
+    /**
+     * loadUserByPayload
+     *
+     * @param mixed $payload
+     * @access private
+     * @return
+     */
+    private function loadUserByPayload($payload)
+    {
+        return new ApiUser($payload['username'], null, null, null, $payload);
     }
 }

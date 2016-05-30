@@ -64,12 +64,11 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     {
         $apiKey = $credentials['token'];
 
-        $payload = $this->jwtVerifier->verifyJWT($apiKey);
-
         // if null, authentication will fail
         // if a User object, checkCredentials() is called
         $username = $this->tokenUserProvider->getUsernameForApiKey($apiKey);
-        return $this->tokenUserProvider->loadUserByUsername($username);
+        $user = $this->tokenUserProvider->loadUserByUsername($username[0], $username[1]);
+        return $user;
     }
 
     public function checkCredentials($credentials, UserInterface $user)

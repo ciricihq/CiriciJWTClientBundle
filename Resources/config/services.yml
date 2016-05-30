@@ -8,4 +8,4 @@ services:
 
     project.token.authenticator:
         class: Cirici\JWTClientBundle\Security\TokenAuthenticator
-        arguments: ["@project.token.jwt_verifier"]
+        arguments: ["@project.token.jwt_verifier", "@project.token.user_provider"]

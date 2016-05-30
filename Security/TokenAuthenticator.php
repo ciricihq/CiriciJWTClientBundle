@@ -23,9 +23,12 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 {
     private $jwtVerifier;
 
-    public function __construct($jwtVerifier)
+    private $tokenUserProvider;
+
+    public function __construct($jwtVerifier, $tokenUserProvider)
     {
         $this->jwtVerifier = $jwtVerifier;
+        $this->tokenUserProvider = $tokenUserProvider;
     }
 
     /**
@@ -65,8 +68,8 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
         // if null, authentication will fail
         // if a User object, checkCredentials() is called
-        return $this->em->getRepository('AppBundle:User')
-            ->findOneBy(array('apiKey' => $apiKey));
+        $username = $this->tokenUserProvider->getUsernameForApiKey($apiKey);
+        return $this->tokenUserProvider->loadUserByUsername($username);
     }
 
     public function checkCredentials($credentials, UserInterface $user)

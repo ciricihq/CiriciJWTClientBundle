@@ -1,6 +1,6 @@
 {
     "name": "ciricihq/jwt-client-bundle",
-    "license": "proprietary",
+    "license": "GPL-3.0",
     "type": "symfony-bundle",
     "description": "Symfony client for manage JWT login against external JWT server or to check if coming JWT token is valid",
     "keywords": ["jwt", "api", "authentication"],

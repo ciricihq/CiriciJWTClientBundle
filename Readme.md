@@ -1,4 +1,7 @@
-# This Bundle is used to login against a JWT server or to check the validity of a JWT Token
+# CiriciJWTClientBundle  [![Build Status](https://travis-ci.org/ciricihq/CiriciJWTClientBundle.svg?branch=master)](https://travis-ci.org/ciricihq/CiriciJWTClientBundle)
+
+
+This Bundle is used to login against a JWT server or to check the validity of a JWT Token
 
 Is based on this instructions: http://ypereirareis.github.io/blog/2016/03/16/symfony-lexikjwtauthenticationbundle-client-user-authenticator-provider/
 

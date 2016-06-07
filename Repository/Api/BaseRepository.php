@@ -70,6 +70,12 @@ class BaseRepository
         }
     }
 
+    /**
+     * getUserToken
+     *
+     * @access protected
+     * @return object
+     */
     protected function getUserToken()
     {
         $user = $this->securityTokenStorage->getToken()->getUser();
@@ -80,9 +86,21 @@ class BaseRepository
         return null;
     }
 
+    /**
+     * loginCheck
+     *
+     * @param mixed $data
+     * @access public
+     * @return string
+     */
     public function loginCheck($data)
     {
-        $token = $this->client->post('/login_check', $data);
+        try {
+            $token = $this->client->post('/login_check', $data);
+        } catch (RequestException $ex) {
+            $response = $ex->getResponse();
+            throw new HttpException($response->getStatusCode(), $ex->getMessage().'-'.$response->getReasonPhrase());
+        }
 
         return $token;
     }

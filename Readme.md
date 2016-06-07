@@ -94,6 +94,13 @@ security:
         - { path: ^/, role: ROLE_ADMIN }
 ```
 
+In `routes.yml` you has to add a login path as those lines for the login fails redirect:
+
+```yml
+login:
+    path: /login
+```
+
 ## Extending login template
 
 If you want to modify the default login template you should create the next folders

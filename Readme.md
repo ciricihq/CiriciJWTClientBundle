@@ -45,14 +45,6 @@ guzzle:
             base_url: %api_jwt_base_url%
 ```
 
-```
-jms_di_extra:
-    locations:
-        all_bundles: false
-        bundles: [AppBundle]
-        directories: ["%kernel.root_dir%/../src", "%kernel.root_dir%/../vendor/cirici/jwt-client-bundle"]
-```
-
 ## Configure security for login form against external JWT server
 
 In order to make this bundle work you should define your `security.yml` like this

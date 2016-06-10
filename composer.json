@@ -24,6 +24,11 @@
         "symfony/symfony": "~2.3.1|~2.7|~3.0",
         "lexik/jwt-authentication-bundle": "^1.5"
     },
+
+    "suggest": {
+        "eightpoints/guzzle-bundle":              "In order to achieve the external JWT server authentication"
+    },
+
     "autoload": {
         "psr-4": { "Cirici\\JWTClientBundle\\": "" }
     }

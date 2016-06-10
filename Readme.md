@@ -86,9 +86,14 @@ security:
         - { path: ^/, role: ROLE_ADMIN }
 ```
 
-In `routes.yml` you has to add a login path as those lines for the login fails redirect:
+In `routes.yml` you has to add a login path as those lines for the login fails redirect and add
+the bundle routes import as well:
 
 ```yml
+jwt_client:
+    resource: '@CiriciJWTClientBundle/Resources/config/routing.yml'
+    prefix: /admin
+
 login:
     path: /login
 ```

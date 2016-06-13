@@ -92,7 +92,7 @@ the bundle routes import as well:
 ```yml
 jwt_client:
     resource: '@CiriciJWTClientBundle/Resources/config/routing.yml'
-    prefix: /admin
+    prefix: /
 
 login:
     path: /login

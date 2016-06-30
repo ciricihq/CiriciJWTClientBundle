@@ -98,6 +98,26 @@ login:
     path: /login
 ```
 
+## Configure to validate incoming Authentication bearer
+
+In your `security.yml` firewall you has to add the next lines:
+
+```yml
+security:
+    providers:
+        token:
+            id: project.token.user_provider
+
+    firewalls:
+        api:
+            pattern:   ^/api/user
+            stateless: true
+            guard:
+                provider: token
+                authenticators:
+                    - project.token.authenticator
+```
+
 ## Extending login template
 
 If you want to modify the default login template you should create the next folders

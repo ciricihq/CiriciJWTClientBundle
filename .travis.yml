@@ -41,8 +41,8 @@ install:
   - composer update $COMPOSER_FLAGS --prefer-dist
 
 script:
-  - sh -c "if [ '$COVERAGE' = '0' ]; then php ./vendor/bin/phpunit --exclude-group ""; fi"
-  - sh -c "if [ '$COVERAGE' = '1' ]; then php ./vendor/bin/phpunit --coverage-clover=clover.xml --exclude-group ""; fi"
+  - sh -c "if [ '$COVERAGE' = '0' ]; then php ./vendor/bin/phpunit --exclude-group=""; fi"
+  - sh -c "if [ '$COVERAGE' = '1' ]; then php ./vendor/bin/phpunit --coverage-clover=clover.xml --exclude-group=""; fi"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

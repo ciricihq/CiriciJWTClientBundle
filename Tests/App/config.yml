@@ -1,0 +1,48 @@
+parameters:
+    secret: ThisTokenIsNotSoSecretChangeIt
+    request_listener.https_port: 443
+    request_listener.http_port: 80
+
+framework:
+    test: ~
+    secret: test
+    session:
+        storage_id: session.storage.mock_file
+    profiler:
+        collect: false
+
+security:
+    providers:
+        token:
+            id: project.token.user_provider
+    firewalls:
+        main:
+            pattern: ^/
+            provider: token
+            anonymous: true
+            simple_form:
+                authenticator: project.token.external_authenticator
+                check_path: cirici_jwt_client_login_check
+                login_path: cirici_jwt_client_login
+                # user_referer: true
+                failure_path: login
+            logout:
+                path: /logout
+                target: cirici_jwt_client_login
+            remember_me:
+                secret: '%secret%'
+                lifetime: 86400
+                path: /
+
+imports:
+    - { resource: "../../Resources/config/services.yml" }
+    - { resource: "../../Resources/config/token_external_authenticator.yml" }
+
+guzzle:
+    clients:
+        api_jwt:
+            base_url: "https://localhost"
+
+            # custom headers
+            headers:
+                Accept: "application/json"

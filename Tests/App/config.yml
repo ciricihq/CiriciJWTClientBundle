@@ -29,10 +29,6 @@ security:
             logout:
                 path: /logout
                 target: cirici_jwt_client_login
-            remember_me:
-                secret: '%secret%'
-                lifetime: 86400
-                path: /
 
 imports:
     - { resource: "../../Resources/config/services.yml" }

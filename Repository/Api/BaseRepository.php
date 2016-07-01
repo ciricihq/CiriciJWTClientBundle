@@ -28,15 +28,18 @@ class BaseRepository
      */
     protected $securityTokenStorage;
 
+    private $tokenPath;
+
     /**
      * BaseRepository constructor.
      * @param $client
      * @param TokenStorageInterface $securityTokenStorage
      */
-    public function __construct($client, TokenStorageInterface $securityTokenStorage)
+    public function __construct($client, TokenStorageInterface $securityTokenStorage, $tokenPath)
     {
         $this->client = $client;
         $this->securityTokenStorage = $securityTokenStorage;
+        $this->tokenPath = $tokenPath;
     }
 
     /**
@@ -96,7 +99,7 @@ class BaseRepository
     public function loginCheck($data)
     {
         try {
-            $token = $this->client->post('/login_check', $data);
+            $token = $this->client->post($this->tokenPath, $data);
         } catch (RequestException $ex) {
             $response = $ex->getResponse();
             throw new HttpException($response->getStatusCode(), $ex->getMessage().'-'.$response->getReasonPhrase());

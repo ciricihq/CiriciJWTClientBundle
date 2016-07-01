@@ -43,6 +43,7 @@ You should load the external token authenticator adding this to your `config.yml
 ```yaml
 cirici_jwt_client:
     use_external_jwt_api: true
+    jwt_token_path: /jwt/token # Endpoint where the token POST request will be done
 ```
 
 And you must define the api using Guzzle configuration
@@ -107,6 +108,7 @@ jwt_client:
 login:
     path: /login
 ```
+
 
 ## Configure to validate incoming Authentication bearer
 

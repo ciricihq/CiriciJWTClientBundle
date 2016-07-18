@@ -18,7 +18,7 @@ Installation
 ------------
 
 ```bash
-composer require ciricihq/jwt-client-bundle
+composer require ciricihq/jwt-client-bundle:dev-master
 ```
 
 Then add to `AppKernel.php`
@@ -35,10 +35,7 @@ Configuration
 -------------
 
 If you are planning to use the bundle as a Authentication service against a JWT server,
-the first step is to configure jms/di-extra-bundle to load the Dependency Injection annotations
-so you have to configure the paths to look for.
-
-You should load the external token authenticator adding this to your `config.yml`
+you should load the external token authenticator adding this to your `config.yml`
 
 ```yaml
 cirici_jwt_client:

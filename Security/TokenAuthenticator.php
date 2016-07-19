@@ -16,8 +16,6 @@ use Doctrine\ORM\EntityManager;
  *
  * based on guard-authentication
  * ref: http://symfony.com/doc/current/cookbook/security/guard-authentication.html
- *
- * @DI\Service("project.token.authenticator")
  */
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {

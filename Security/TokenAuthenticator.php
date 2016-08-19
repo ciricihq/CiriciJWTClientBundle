@@ -40,7 +40,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             return;
         }
 
-        $token = str_replace('/Bearer /', '', $token);
+        $token = $this->cleanToken($token);
 
         // What you return here will be passed to getUser() as $credentials
         return array(
@@ -73,9 +73,13 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     {
         // check credentials - e.g. make sure the password is valid
         // no credential check is needed in this case
+        //
+        $token = $this->cleanToken($credentials['token']);
+        if ($this->jwtVerifier->verifyJWT($token)) {
+            return true;
+        }
 
-        // return true to cause authentication success
-        return true;
+        return false;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
@@ -112,5 +116,11 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function supportsRememberMe()
     {
         return false;
+    }
+
+    private function cleanToken($token)
+    {
+        $cleanToken = str_replace('Bearer ', '', $token);
+        return $cleanToken;
     }
 }

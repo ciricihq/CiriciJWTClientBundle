@@ -14,8 +14,7 @@ It has been based on [these instructions][instructions].
 
 WARNING! This bundle is Work In Progress and is not ready for production yet
 
-Installation
-------------
+## Installation
 
 ```bash
 composer require ciricihq/jwt-client-bundle:dev-master
@@ -31,8 +30,7 @@ Then add to `AppKernel.php`
         ];
 ```
 
-Configuration
--------------
+## Configuration
 
 If you are planning to use the bundle as a Authentication service against a JWT server,
 you should load the external token authenticator adding this to your `config.yml`
@@ -52,8 +50,7 @@ guzzle:
             base_url: %api_jwt_base_url%
 ```
 
-Configure security for login form against external JWT server
--------------------------------------------------------------
+## Configure security for login form against external JWT server
 
 In order to make this bundle work you should define your `security.yml` like this
 
@@ -143,14 +140,14 @@ Now your app will load the login template just copied and you can modify it with
 [coverage]: https://codecov.io/gh/ciricihq/CiriciJWTClientBundle
 [license]: https://github.com/ciricihq/CiriciJWTClientBundle/blob/master/LICENSE.md
 [releases]: https://github.com/ciricihq/CiriciJWTClientBundle/releases
-[downloads]: https://packagist.org/packages/ciricihq/adminlte
+[downloads]: https://packagist.org/packages/ciricihq/CiriciJWTClientBundle
 [climate]: https://codeclimate.com/github/ciricihq/CiriciJWTClientBundle
 
 [build svg]: https://img.shields.io/travis/ciricihq/CiriciJWTClientBundle/master.svg?style=flat-square
 [coverage svg]: https://img.shields.io/codecov/c/github/ciricihq/CiriciJWTClientBundle/master.svg?style=flat-square
 [license svg]: https://img.shields.io/github/license/ciricihq/CiriciJWTClientBundle.svg?style=flat-square
 [releases svg]: https://img.shields.io/github/release/ciricihq/CiriciJWTClientBundle.svg?style=flat-square
-[downloads svg]: https://img.shields.io/packagist/dt/ciricihq/adminlte.svg?style=flat-square
+[downloads svg]: https://img.shields.io/packagist/dt/ciricihq/CiriciJWTClientBundle.svg?style=flat-square
 [climate svg]: https://img.shields.io/codeclimate/github/ciricihq/CiriciJWTClientBundle.svg?style=flat-square
 
 [instructions]: http://ypereirareis.github.io/blog/2016/03/16/symfony-lexikjwtauthenticationbundle-client-user-authenticator-provider/

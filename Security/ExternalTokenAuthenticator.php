@@ -124,6 +124,8 @@ class ExternalTokenAuthenticator implements SimpleFormAuthenticatorInterface
                         throw new AuthenticationException('API Unauthorized: '. $ex->getMessage());
                     case Response::HTTP_FORBIDDEN:
                         throw new AuthenticationException('API Forbidden: '. $ex->getMessage());
+                    case Response::HTTP_NOT_FOUND:
+                        throw new AuthenticationException('API NOT FOUND: '. $ex->getMessage());
                 }
             }
         } catch (AuthenticationException $ex) {

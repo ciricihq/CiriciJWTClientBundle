@@ -103,6 +103,15 @@ login:
     path: /login
 ```
 
+## Setting up custom User class for incoming requests
+
+If you want to map the incoming token calls with a custom User class instead of ApiUser you should implement `Cirici\JWTClientBundle\Security\ApiUserInterface`.
+The configure your custom User class in `config.yml`:
+
+```yaml
+cirici_jwt_client:
+    api_user_class: '\AppBundle\Entity\User'
+```
 
 ## Configure to validate incoming Authentication bearer
 

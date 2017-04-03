@@ -6,7 +6,7 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 
-class ApiUser implements AdvancedUserInterface, \Serializable, EquatableInterface
+class ApiUser implements AdvancedUserInterface, \Serializable, EquatableInterface, ApiUserInterface
 {
     private $username;
     private $password;

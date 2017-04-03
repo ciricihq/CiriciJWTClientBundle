@@ -1,6 +1,8 @@
 services:
     project.token.user_provider:
         class: Cirici\JWTClientBundle\Security\TokenUserProvider
+        calls:
+            - [setUserClass, ['%api_user_class%']]
 
     project.token.jwt_verifier:
         class: Cirici\JWTClientBundle\Security\JwtVerifier

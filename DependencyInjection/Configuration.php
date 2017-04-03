@@ -38,6 +38,11 @@ class Configuration implements ConfigurationInterface
                     ->info("Load the external api token authenticator")
                     ->defaultValue(false)
                 ->end()
+                ->scalarNode('api_user_class')
+                    ->info("If you want to use your own class you should define here")
+                    ->defaultValue('\Cirici\JWTClientBundle\Security\ApiUser')
+                ->end()
+
             ->end()
         ;
 

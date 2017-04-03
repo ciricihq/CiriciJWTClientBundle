@@ -70,7 +70,7 @@ class TokenUserProvider implements UserProviderInterface
             return $this->loadUserByPayload($payload);
         }
 
-        return new ApiUser($username,  null, '', ['roles' => 'ROLE_USER'], []);
+        return new $this->userClass($username,  null, '', ['roles' => 'ROLE_USER'], []);
     }
 
     /**
@@ -82,7 +82,7 @@ class TokenUserProvider implements UserProviderInterface
      */
     public function refreshUser(UserInterface $user)
     {
-        if (!$user instanceof ApiUser) {
+        if (!$user instanceof $this->userClass) {
             throw new UnsupportedUserException(
                 sprintf('Instances of "%s" are not supported.', get_class($user))
             );
@@ -90,7 +90,7 @@ class TokenUserProvider implements UserProviderInterface
 
         list($username, $payload) = $this->getUsernameForApiKey($user->getToken());
 
-        return new ApiUser($username,  null, '', $user->getToken(), $payload);
+        return new $this->userClass($username,  null, '', $user->getToken(), $payload);
     }
 
     /**
@@ -102,7 +102,7 @@ class TokenUserProvider implements UserProviderInterface
      */
     public function supportsClass($class)
     {
-        return 'Cirici\JWTClientBundle\Security\ApiUser' === $class;
+        return $this->userClass === $class;
     }
 
     /**
@@ -114,6 +114,11 @@ class TokenUserProvider implements UserProviderInterface
      */
     private function loadUserByPayload($payload)
     {
-        return new ApiUser($payload['username'], null, null, null, $payload);
+        return new $this->userClass($payload['username'], null, null, null, $payload);
+    }
+
+    public function setUserClass($userClass = '\Cirici\JWTClientBundle\Security\ApiUser')
+    {
+        $this->userClass = $userClass;
     }
 }

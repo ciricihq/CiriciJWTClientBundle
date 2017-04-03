@@ -34,5 +34,6 @@ class CiriciJWTClientExtension extends Extension
 
         // convert settings to parameters in order to acces them from controllers
         $container->setParameter('jwt_token_path', $config['jwt_token_path']);
+        $container->setParameter('api_user_class', $config['api_user_class']);
     }
 }

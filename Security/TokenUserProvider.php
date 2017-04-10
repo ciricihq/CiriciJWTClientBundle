@@ -70,7 +70,9 @@ class TokenUserProvider implements UserProviderInterface
             return $this->loadUserByPayload($payload);
         }
 
-        return new $this->userClass($username,  null, '', ['roles' => 'ROLE_USER'], []);
+        $user = new $this->userClass();
+
+        return new $user->initializeUser($username,  null, '', ['roles' => 'ROLE_USER'], []);
     }
 
     /**
@@ -90,7 +92,9 @@ class TokenUserProvider implements UserProviderInterface
 
         list($username, $payload) = $this->getUsernameForApiKey($user->getToken());
 
-        return new $this->userClass($username,  null, '', $user->getToken(), $payload);
+        $user = new $this->userClass();
+
+        return new $user->initializeUser($username,  null, '', $user->getToken(), $payload);
     }
 
     /**
@@ -114,9 +118,17 @@ class TokenUserProvider implements UserProviderInterface
      */
     private function loadUserByPayload($payload)
     {
-        return new $this->userClass($payload['username'], null, null, null, $payload);
+        $user = new $this->userClass();
+        return $user->initializeUser($payload['username'], null, null, null, $payload);
     }
 
+    /**
+     * setUserClass
+     *
+     * @param bool $userClass
+     * @access public
+     * @return void
+     */
     public function setUserClass($userClass = '\Cirici\JWTClientBundle\Security\ApiUser')
     {
         $this->userClass = $userClass;

@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 
 interface ApiUserInterface
 {
-    public function __construct($username, $password, $salt, $token, array $payload);
+    public function initializeUser($username, $password, $salt, $token, array $payload);
     public function getRoles();
     public function getPassword();
     public function getSalt();

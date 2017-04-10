@@ -15,7 +15,7 @@ class ApiUser implements AdvancedUserInterface, \Serializable, EquatableInterfac
     private $token;
     private $payload;
 
-    public function __construct($username, $password, $salt, $token, array $payload)
+    public function initializeUser($username, $password, $salt, $token, array $payload)
     {
         $this->username = $username;
         $this->password = $password;

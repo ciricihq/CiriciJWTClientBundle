@@ -23,6 +23,14 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     private $tokenUserProvider;
 
+    /**
+     * __construct
+     *
+     * @param mixed $jwtVerifier
+     * @param mixed $tokenUserProvider
+     * @access public
+     * @return void
+     */
     public function __construct($jwtVerifier, $tokenUserProvider)
     {
         $this->jwtVerifier = $jwtVerifier;
@@ -118,9 +126,15 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         return false;
     }
 
-    private function cleanToken($token)
+    /**
+     * cleanToken
+     *
+     * @param mixed $token
+     * @access public
+     * @return void
+     */
+    public function cleanToken($token)
     {
-        $cleanToken = str_replace('Bearer ', '', $token);
-        return $cleanToken;
+        return str_replace('Bearer ', '', $token);
     }
 }

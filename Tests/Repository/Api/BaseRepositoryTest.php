@@ -2,30 +2,18 @@
 
 namespace Cirici\JWTClientBundle\Tests\Repository\Api;
 
-class BaseRepositoryTest extends \PHPUnit_Framework_TestCase
+use Cirici\JWTClientBundle\Tests\Repository\Api\BaseTestSuite;
+
+class BaseRepositoryTest extends BaseTestSuite
 {
-    private $container;
-
-    protected function setUp()
+    public function setUp()
     {
-        $file = __DIR__.'/../../App/AppKernel.php';
-        if (!file_exists($file))
-        {
-            $file = __DIR__.'/../../../../../../app/AppKernel.php';
-            if (!file_exists($file))
-                throw new RuntimeException('No kernel found.');
-        }
-
-        require_once $file;
-
-        $kernel = new \AppKernel('test', true);
-        $kernel->boot();
-        $this->container = $kernel->getContainer();
+        parent::setUp();
     }
 
     public function testRepositoryServiceInstance()
     {
-        $baseRepo = $this->container->get('project.repository.api');
+        $baseRepo = $this->getContainer()->get('project.repository.api');
         $this->assertInstanceOf('Cirici\JWTClientBundle\Repository\Api\BaseRepository', $baseRepo);
     }
 }

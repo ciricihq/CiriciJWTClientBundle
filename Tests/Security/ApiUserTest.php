@@ -9,6 +9,9 @@ class ApiUserTest extends \PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         // Test with invalid constructor parameters
-        $user = new ApiUser('test', '1234', '', [], []);
+        $user = new ApiUser();
+        $user->initializeUser('test', '1234', '', [], []);
+
+        $this->assertEquals('test', $user->getUsername());
     }
 }

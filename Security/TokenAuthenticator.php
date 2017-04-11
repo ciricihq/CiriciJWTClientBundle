@@ -48,9 +48,8 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             return;
         }
 
-        $token = $this->cleanToken($request->headers->get('Authorization'));
-
         // Removing Bearer from header
+        $token = $this->cleanToken($request->headers->get('Authorization'));
 
         // What you return here will be passed to getUser() as $credentials
         return array(

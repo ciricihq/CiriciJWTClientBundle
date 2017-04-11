@@ -25,16 +25,19 @@ class ExternalTokenAuthenticator implements SimpleFormAuthenticatorInterface
 
     private $verifier;
 
+    private $userClass;
+
     /**
      * TokenAuthenticator constructor.
      *
      * @param RepositoryInterface $repository
      *
      */
-    public function __construct($repository, $verifier)
+    public function __construct($repository, $verifier, $userClass = '\Cirici\JWTClientBundle\Security\ApiUser')
     {
         $this->repository = $repository;
         $this->verifier = $verifier;
+        $this->userClass = $userClass;
     }
 
     /**
@@ -110,7 +113,8 @@ class ExternalTokenAuthenticator implements SimpleFormAuthenticatorInterface
 
                 $payload = $this->verifier->verifyJWT($apiKey);
 
-                $user = new ApiUser($username, $password, '', $apiKey, $payload);
+                $user = new $this->userClass();
+                $user->initializeUser($username, $password, '', $apiKey, $payload);
 
                 return new UsernamePasswordToken(
                     $user,
@@ -137,5 +141,17 @@ class ExternalTokenAuthenticator implements SimpleFormAuthenticatorInterface
     {
         return $token instanceof UsernamePasswordToken
             && $token->getProviderKey() === $providerKey;
+    }
+
+    /**
+     * setUserClass
+     *
+     * @param bool $userClass
+     * @access public
+     * @return void
+     */
+    public function setUserClass($userClass = '\Cirici\JWTClientBundle\Security\ApiUser')
+    {
+        $this->userClass = $userClass;
     }
 }

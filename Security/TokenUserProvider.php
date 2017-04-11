@@ -71,8 +71,9 @@ class TokenUserProvider implements UserProviderInterface
         }
 
         $user = new $this->userClass();
+        $user->initializeUser($username,  null, '', ['roles' => 'ROLE_USER'], []);
 
-        return new $user->initializeUser($username,  null, '', ['roles' => 'ROLE_USER'], []);
+        return $user;
     }
 
     /**
@@ -92,9 +93,10 @@ class TokenUserProvider implements UserProviderInterface
 
         list($username, $payload) = $this->getUsernameForApiKey($user->getToken());
 
-        $user = new $this->userClass();
+        $populatedUser = new $this->userClass();
 
-        return new $user->initializeUser($username,  null, '', $user->getToken(), $payload);
+        $populatedUser->initializeUser($username,  null, '', $user->getToken(), $payload);
+        return $populatedUser;
     }
 
     /**

@@ -96,6 +96,7 @@ class TokenUserProvider implements UserProviderInterface
         $populatedUser = new $this->userClass();
 
         $populatedUser->initializeUser($username,  null, '', $user->getToken(), $payload);
+
         return $populatedUser;
     }
 
@@ -121,7 +122,9 @@ class TokenUserProvider implements UserProviderInterface
     private function loadUserByPayload($payload)
     {
         $user = new $this->userClass();
-        return $user->initializeUser($payload['username'], null, null, null, $payload);
+        $user->initializeUser($payload['username'], null, null, null, $payload);
+
+        return $user;
     }
 
     /**

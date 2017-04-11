@@ -3,7 +3,7 @@
 namespace Cirici\JWTClientBundle\Repository\Api;
 
 // use AppBundle\Repository\RepositoryInterface;
-use AppBundle\Security\ApiUser;
+use Cirici\JWTClientBundle\Security\ApiUserInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -82,7 +82,7 @@ class BaseRepository
     protected function getUserToken()
     {
         $user = $this->securityTokenStorage->getToken()->getUser();
-        if (is_object($user) && $user instanceof ApiUser) {
+        if (is_object($user) && $user instanceof ApiUserInterface) {
             return $user->getToken();
         }
 

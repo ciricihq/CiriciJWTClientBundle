@@ -43,12 +43,14 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        if (!$token = $request->headers->get('Authorization')) {
+        if (!$request->headers->get('Authorization')) {
             // no token? Return null and no other methods will be called
             return;
         }
 
-        $token = $this->cleanToken($token);
+        $token = $this->cleanToken($request->headers->get('Authorization'));
+
+        // Removing Bearer from header
 
         // What you return here will be passed to getUser() as $credentials
         return array(
@@ -68,11 +70,11 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $apiKey = $credentials['token'];
+        $token = $credentials['token'];
 
         // if null, authentication will fail
         // if a User object, checkCredentials() is called
-        $username = $this->tokenUserProvider->getUsernameForApiKey($apiKey);
+        $username = $this->tokenUserProvider->getUsernameForApiKey($token);
         $user = $this->tokenUserProvider->loadUserByUsername($username[0], $username[1]);
         return $user;
     }

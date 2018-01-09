@@ -43,11 +43,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        if (!$request->headers->get('Authorization')) {
-            // no token? Return null and no other methods will be called
-            return;
-        }
-
         // Removing Bearer from header
         $token = $this->cleanToken($request->headers->get('Authorization'));
 
@@ -120,6 +115,11 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         );
 
         return new JsonResponse($data, 401);
+    }
+
+    public function supports(Request $request)
+    {
+        return $request->headers->get('Authorization');
     }
 
     public function supportsRememberMe()

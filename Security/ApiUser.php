@@ -2,11 +2,10 @@
 
 namespace Cirici\JWTClientBundle\Security;
 
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 
-class ApiUser implements AdvancedUserInterface, \Serializable, EquatableInterface, ApiUserInterface
+class ApiUser implements \Serializable, EquatableInterface, ApiUserInterface, UserInterface
 {
     private $username;
     private $password;
@@ -86,26 +85,6 @@ class ApiUser implements AdvancedUserInterface, \Serializable, EquatableInterfac
             return false;
         }
 
-        return true;
-    }
-
-    public function isAccountNonExpired()
-    {
-        return true;
-    }
-
-    public function isAccountNonLocked()
-    {
-        return true;
-    }
-
-    public function isCredentialsNonExpired()
-    {
-        return true;
-    }
-
-    public function isEnabled()
-    {
         return true;
     }
 

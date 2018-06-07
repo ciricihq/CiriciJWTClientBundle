@@ -2,9 +2,8 @@
 
 namespace Cirici\JWTClientBundle\Security;
 
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 interface ApiUserInterface
 {
@@ -17,10 +16,6 @@ interface ApiUserInterface
     public function getPayload();
     public function eraseCredentials();
     public function isEqualTo(UserInterface $user);
-    public function isAccountNonExpired();
-    public function isAccountNonLocked();
-    public function isCredentialsNonExpired();
-    public function isEnabled();
     public function serialize();
     public function unserialize($serialized);
 }

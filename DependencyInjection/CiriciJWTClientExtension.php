@@ -27,6 +27,7 @@ class CiriciJWTClientExtension extends Extension
 
         if ($config['use_external_jwt_api'] === true) {
             $loader->load('token_external_authenticator.yml');
+            $container->setParameter('external_api', $config['external_api']);
         }
 
         // convert settings to parameters in order to acces them from controllers

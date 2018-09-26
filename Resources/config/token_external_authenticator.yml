@@ -1,7 +1,7 @@
 services:
     project.repository.api:
         class: Cirici\JWTClientBundle\Repository\Api\BaseRepository
-        arguments: ["@guzzle.client.api_jwt", "@security.token_storage", "%jwt_token_path%"]
+        arguments: ["%external_api%", "@security.token_storage", "%jwt_token_path%"]
     project.token.external_authenticator:
         class: Cirici\JWTClientBundle\Security\ExternalTokenAuthenticator
         arguments: ["@project.repository.api", "@project.token.jwt_verifier"]

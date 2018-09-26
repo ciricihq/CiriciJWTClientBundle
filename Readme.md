@@ -38,6 +38,7 @@ you should load the external token authenticator adding this to your `config.yml
 ```yaml
 cirici_jwt_client:
     use_external_jwt_api: true
+    external_api: "@eight_points_guzzle.client.api_jwt"
     jwt_token_path: /jwt/token # Endpoint where the token POST request will be done
 ```
 
